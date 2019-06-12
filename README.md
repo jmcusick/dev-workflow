@@ -1,5 +1,7 @@
 # Dev Workflow
 
-* .emacs
+* .emacs: emacs init file
 
-* PS1 and .bashrc
+* .ps1: prompt for bash shells
+
+* .alias: aliases for bash shells

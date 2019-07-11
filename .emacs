@@ -1,3 +1,5 @@
+;;; Install mouse wheel for scrolling
+
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
@@ -15,7 +17,6 @@
 ;;                          ("marmalade" . "http://marmalade-repo.org/packages/")
 ;;                          ("melpa" . "http://melpa.org/packages/")))
 
-;;; Install mouse wheel for scrolling
 (mwheel-install)
 
 ;;; Turn off beeping
@@ -76,7 +77,8 @@
 ;;; Don't generate backup files
 (setq make-backup-files nil)
 
-;;; Highlight lines >= 80 characters (C++, Python)
+;;; Highlight lines >= 120 characters (C++, Python)
+(setq whitespace-line-column 120)
 (defun highlight-long-lines-hook ()
   (require 'whitespace)
   (setq whitespace-style '(face empty tabs lines-tail trailing))
@@ -112,16 +114,16 @@
 ;;; xclip hack to link your x clipboard in -nw mode
 (defun copy-to-clipboard (text &optional push)
   (let ((process-connection-type nil))
-    (let ((proc (start-process "xclip" "*Messages*" "xclip")))
+    (let ((proc (start-process "xclip" "*Messages*" "xclip" "-selection" "clipboard")))
 (process-send-string proc text)
 (process-send-eof proc))))
 
 (setq interprogram-cut-function 'copy-to-clipboard)
 
-;;; activate windmove
+;;; activate windmove (default key: shift)
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
-(windmove-default-keybindings 'meta)
+;; (windmove-default-keybindings 'M)
 
 ;;; increase buffer menu name width to see more of the file name
 (setq Buffer-menu-name-width 40)
@@ -311,7 +313,11 @@ Version 2017-01-08"
                    (setq $p1 (point)))
           (setq $p1 (point)))
         (re-search-forward "\n[ \t]*\n" nil "NOERROR")
-  $p1 $p2)
+        (skip-chars-backward " \t\n" )
+        (setq $p2 (point))))
+    (save-excursion
+      (save-restriction
+        (narrow-to-region $p1 $p2)
         (goto-char (point-min))
         (skip-chars-forward "\t ")
         (insert $beginQuote)
@@ -374,7 +380,7 @@ This command does not push text to `kill-ring'."
 ;; (defun ruthless-mode (arg)
 ;;   (if (string= arg "y")
 ;;       (progn
-;;         (global-set-kbd "C-S-k") 'ruthless-delete-line-backward) ; Ctrl+Shift+k
+;;         (global-set-key (kbd "C-S-k") 'ruthless-delete-line-backward) ; Ctrl+Shift+k
 ;;         (global-set-key (kbd "C-k") 'ruthless-delete-line)
 ;;         (global-set-key (kbd "M-d") 'ruthless-delete-word)
 ;;         (global-set-key "\M-\d" 'ruthless-backward-delete-word) ; Alt+Backspace

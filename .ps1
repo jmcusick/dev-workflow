@@ -29,7 +29,7 @@ smiley () {
     fi
 }
 git_prompt() {
-    __git_ps1 " (%s)"
+    __git_ps1 "(%s)"
 }
 # export PS1="$green\u@$bold\h$reset \$(smiley) \w\n\$ "
-export PS1="$cyan\t$reset \$(smiley) \w$magenta \$(git_prompt)\n$green\u$reset@$green$bold\h$reset\$ "
+export PS1="$cyan\t$reset \$(smiley) \w $magenta\$(git_prompt)\n$green\u$reset@$green$bold\h$reset\$ "

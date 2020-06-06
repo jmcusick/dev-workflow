@@ -48,7 +48,9 @@
  '(ansi-color-for-comint-mode t)
  '(font-lock-global-modes t)
  '(load-home-init-file t t)
- '(package-selected-packages (quote (zone-nyan paradox)))
+ '(package-selected-packages
+   (quote
+    (groovy-mode dockerfile-mode terraform-mode yaml-mode markdown-mode+ markdown-mode zone-nyan paradox)))
  '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -394,14 +396,14 @@ This command does not push text to `kill-ring'."
 
 
 ;;; Do Re Mi for easier adjustments to window size
-(load "~/.emacs.d/elisp/doremi")
+;; (load "~/.emacs.d/elisp/doremi")
 
-(load "~/.emacs.d/elisp/doremi-cmd")
+;; (load "~/.emacs.d/elisp/doremi-cmd")
 
-(load "~/.emacs.d/elisp/faces+")
-(load "~/.emacs.d/elisp/frame-fns")
-(load "~/.emacs.d/elisp/hexrgb")
-(load "~/.emacs.d/elisp/doremi-frm")
+;; (load "~/.emacs.d/elisp/faces+")
+;; (load "~/.emacs.d/elisp/frame-fns")
+;; (load "~/.emacs.d/elisp/hexrgb")
+;; (load "~/.emacs.d/elisp/doremi-frm")
 
 
 ;;; Fix PS1 color for shell
@@ -414,3 +416,13 @@ This command does not push text to `kill-ring'."
 
 ;;; Open shell in current window
 (push (cons "\\*shell\\*" display-buffer--same-window-action) display-buffer-alist)
+
+;;; Open Jenkinsfile in groovy-mode
+(add-to-list 'auto-mode-alist '("Jenkinsfile" . groovy-mode))
+
+;;; Quick function to swap to 2 space indent in local json/javascript file
+(defun js-indent (n)
+  "Set single json/js file's indent size"
+  (interactive "nNumber of spaces: ")
+  (make-local-variable 'js-indent-level)
+  (setq js-indent-level n))

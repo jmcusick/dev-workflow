@@ -426,3 +426,7 @@ This command does not push text to `kill-ring'."
   (interactive "nNumber of spaces: ")
   (make-local-variable 'js-indent-level)
   (setq js-indent-level n))
+
+;;; change default smerge-command-prefix from C-c  ^ to C-c v
+;;; https://emacs.stackexchange.com/a/16470
+(setq smerge-command-prefix "\C-cv")

@@ -22,7 +22,8 @@
 ;;; Turn off beeping
 (setq visible-bell t)
 
-;;; Require new line add the end of a file
+;;; Require new line at the end of a file
+(setq require-final-newline t)
 (setq mode-require-final-newline t)
 
 ;;; Turn off any startup messages
@@ -33,7 +34,7 @@
 (setq x-gtk-use-system-tooltips nil)
 
 ;;; Insert spaces instead of tabs
-(setq-default indent-tabs-mode nil)
+(setq indent-tabs-mode nil)
 
 ;;; Line numbers and column numbers
 (column-number-mode t)

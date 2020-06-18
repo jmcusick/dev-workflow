@@ -1,22 +1,14 @@
-;;; Install mouse wheel for scrolling
-
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 (require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")))
 
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-
-;; allow for package-install
-;; (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-;;                          ("marmalade" . "http://marmalade-repo.org/packages/")
-;;                          ("melpa" . "http://melpa.org/packages/")))
-
+;;; Install mouse wheel for scrolling
 (mwheel-install)
 
 ;;; Turn off beeping
@@ -48,10 +40,19 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-for-comint-mode t)
  '(font-lock-global-modes t)
+ '(groovy-mode-hook
+   (quote
+    ((lambda nil
+       (setq c-basic-offset 4)
+       (setq indent-tabs-mode nil)
+       (c-set-offset
+	(quote label)
+	(quote +)))
+     whitespace-cleanup-on-save-hook)) t)
  '(load-home-init-file t t)
  '(package-selected-packages
    (quote
-    (groovy-mode dockerfile-mode terraform-mode yaml-mode markdown-mode+ markdown-mode zone-nyan paradox)))
+    (groovy-mode pkg-info dockerfile-mode terraform-mode yaml-mode markdown-mode+ markdown-mode zone-nyan paradox)))
  '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -96,6 +97,7 @@
 
 (add-hook 'c++-mode-hook 'whitespace-cleanup-on-save-hook)
 (add-hook 'python-mode-hook 'whitespace-cleanup-on-save-hook)
+;; (add-hook 'groovy-mode-hook 'whitespace-cleanup-on-save-hook)
 
 ;;; Rebind C-x C-b to invoke buffer-menu rather than list-buffers
 ;;; This will show the buffers in the current window
@@ -137,11 +139,11 @@
   (let ((filename (file-name-nondirectory (buffer-file-name (current-buffer)))))
     (message filename)
     (cond ((string-suffix-p ".cpp" filename)
-           (find-file (concat (file-name-sans-extension filename) ".h")))
-          ((string-suffix-p ".h" filename)
-           (find-file (concat (file-name-sans-extension filename) ".cpp")))
-          (t (message "Not a c++ file"))
-          )))
+	   (find-file (concat (file-name-sans-extension filename) ".h")))
+	  ((string-suffix-p ".h" filename)
+	   (find-file (concat (file-name-sans-extension filename) ".cpp")))
+	  (t (message "Not a c++ file"))
+	  )))
 (global-set-key (kbd "<f8>") 'cpp-switch)
 
 ;;; Custom align-regexp to align a particular word in each highlighted line
@@ -162,10 +164,10 @@
   "Choose a number word to align (must be > 1 amd in ascending order)"
   (interactive "r")
   (align-regexp start end
-                (concat "^\\(?:\\s-*\\S-+\\)\\{"
-                        (decrementNumString(read-string "Enter word (>1): "))
-                        "\\}\\(\\s-+\\)")
-                1 1 t))
+		(concat "^\\(?:\\s-*\\S-+\\)\\{"
+			(decrementNumString(read-string "Enter word (>1): "))
+			"\\}\\(\\s-+\\)")
+		1 1 t))
 (defun decrementNumString(str)
   (number-to-string (- (string-to-number str) 1)))
 
@@ -277,61 +279,61 @@ URL `http://ergoemacs.org/emacs/emacs_quote_lines.html'
 Version 2017-01-08"
   (interactive)
   (let* (
-         $p1
-         $p2
-         ($quoteToUse
-          (read-string
-           "Quote to use:" "\"" nil
-           '(
-             ""
-             "\""
-             "'"
-             "("
-             "{"
-             "["
-             )))
-         ($separator
-          (read-string
-           "line separator:" "," nil
-           '(
-             ""
-             ","
-             ";"
-             )))
-         ($beginQuote $quoteToUse)
-         ($endQuote
-          ;; if begin quote is a bracket, set end quote to the matching one. else, same as begin quote
-          (let (($syntableValue (aref (syntax-table) (string-to-char $beginQuote))))
-            (if (eq (car $syntableValue ) 4) ; ; syntax table, code 4 is open paren
-                (char-to-string (cdr $syntableValue))
-              $quoteToUse
-              ))))
+	 $p1
+	 $p2
+	 ($quoteToUse
+	  (read-string
+	   "Quote to use:" "\"" nil
+	   '(
+	     ""
+	     "\""
+	     "'"
+	     "("
+	     "{"
+	     "["
+	     )))
+	 ($separator
+	  (read-string
+	   "line separator:" "," nil
+	   '(
+	     ""
+	     ","
+	     ";"
+	     )))
+	 ($beginQuote $quoteToUse)
+	 ($endQuote
+	  ;; if begin quote is a bracket, set end quote to the matching one. else, same as begin quote
+	  (let (($syntableValue (aref (syntax-table) (string-to-char $beginQuote))))
+	    (if (eq (car $syntableValue ) 4) ; ; syntax table, code 4 is open paren
+		(char-to-string (cdr $syntableValue))
+	      $quoteToUse
+	      ))))
     (if (use-region-p)
-        (progn
-          (setq $p1 (region-beginning))
-          (setq $p2 (region-end)))
+	(progn
+	  (setq $p1 (region-beginning))
+	  (setq $p2 (region-end)))
       (progn
-        (if (re-search-backward "\n[ \t]*\n" nil "NOERROR")
-            (progn (re-search-forward "\n[ \t]*\n")
-                   (setq $p1 (point)))
-          (setq $p1 (point)))
-        (re-search-forward "\n[ \t]*\n" nil "NOERROR")
-        (skip-chars-backward " \t\n" )
-        (setq $p2 (point))))
+	(if (re-search-backward "\n[ \t]*\n" nil "NOERROR")
+	    (progn (re-search-forward "\n[ \t]*\n")
+		   (setq $p1 (point)))
+	  (setq $p1 (point)))
+	(re-search-forward "\n[ \t]*\n" nil "NOERROR")
+	(skip-chars-backward " \t\n" )
+	(setq $p2 (point))))
     (save-excursion
       (save-restriction
-        (narrow-to-region $p1 $p2)
-        (goto-char (point-min))
-        (skip-chars-forward "\t ")
-        (insert $beginQuote)
-        (goto-char (point-max))
-        (insert $endQuote)
-        (goto-char (point-min))
-        (while (re-search-forward "\n\\([\t ]*\\)" nil "NOERROR" )
-          (replace-match
-           (concat $endQuote $separator (concat "\n" (match-string 1)) $beginQuote) "FIXEDCASE" "LITERAL"))
-        ;;
-        ))))
+	(narrow-to-region $p1 $p2)
+	(goto-char (point-min))
+	(skip-chars-forward "\t ")
+	(insert $beginQuote)
+	(goto-char (point-max))
+	(insert $endQuote)
+	(goto-char (point-min))
+	(while (re-search-forward "\n\\([\t ]*\\)" nil "NOERROR" )
+	  (replace-match
+	   (concat $endQuote $separator (concat "\n" (match-string 1)) $beginQuote) "FIXEDCASE" "LITERAL"))
+	;;
+	))))
 
 ;; Delete commands without adding to kill ring (which overwrites the clipboard)
 
@@ -410,7 +412,7 @@ This command does not push text to `kill-ring'."
 ;;; Fix PS1 color for shell
 (require 'comint)
 (set-face-attribute 'comint-highlight-prompt nil
-                    :inherit nil)
+		    :inherit nil)
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
@@ -419,7 +421,7 @@ This command does not push text to `kill-ring'."
 (push (cons "\\*shell\\*" display-buffer--same-window-action) display-buffer-alist)
 
 ;;; Open Jenkinsfile in groovy-mode
-(add-to-list 'auto-mode-alist '("Jenkinsfile" . groovy-mode))
+;; (add-to-list 'auto-mode-alist '("Jenkinsfile" . groovy-mode))
 
 ;;; Quick function to swap to 2 space indent in local json/javascript file
 (defun js-indent (n)
@@ -431,3 +433,12 @@ This command does not push text to `kill-ring'."
 ;;; change default smerge-command-prefix from C-c  ^ to C-c v
 ;;; https://emacs.stackexchange.com/a/16470
 (setq smerge-command-prefix "\C-cv")
+
+;;; Using legacy CC-derived groovy-mode (see https://github.com/Groovy-Emacs-Modes/groovy-emacs-modes)
+;;; C -> Java -> Groovy Style
+;;; Note: M-x c-set-offset or C-c C-o will give you info about the current line's indent tag
+;; (add-hook 'groovy-mode-hook
+;; 	  (lambda ()
+;; 	    (setq c-basic-offset 4)
+;; 	    (setq indent-tabs-mode nil)
+;; 	    (c-set-offset 'label '+)))

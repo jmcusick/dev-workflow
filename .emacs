@@ -42,17 +42,13 @@
  '(font-lock-global-modes t)
  '(groovy-mode-hook
    (quote
-    ((lambda nil
-       (setq c-basic-offset 4)
-       (setq indent-tabs-mode nil)
-       (c-set-offset
-	(quote label)
-	(quote +)))
-     whitespace-cleanup-on-save-hook)) t)
+    (whitespace-cleanup-on-save-hook
+     (lambda nil
+       (setq indent-tabs-mode nil)))) t)
  '(load-home-init-file t t)
  '(package-selected-packages
    (quote
-    (groovy-mode pkg-info dockerfile-mode terraform-mode yaml-mode markdown-mode+ markdown-mode zone-nyan paradox)))
+    (typescript-mode groovy-mode pkg-info dockerfile-mode terraform-mode yaml-mode markdown-mode+ markdown-mode zone-nyan paradox)))
  '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -120,8 +116,8 @@
 (defun copy-to-clipboard (text &optional push)
   (let ((process-connection-type nil))
     (let ((proc (start-process "xclip" "*Messages*" "xclip" "-selection" "clipboard")))
-(process-send-string proc text)
-(process-send-eof proc))))
+      (process-send-string proc text)
+      (process-send-eof proc))))
 
 (setq interprogram-cut-function 'copy-to-clipboard)
 
@@ -430,6 +426,13 @@ This command does not push text to `kill-ring'."
   (make-local-variable 'js-indent-level)
   (setq js-indent-level n))
 
+;;; Quick function to swap to 2 space indent in local json/javascript file
+(defun jenkins-indent (n)
+  "Set single json/js file's indent size"
+  (interactive "nNumber of spaces: ")
+  (make-local-variable 'groovy-indent-offset)
+  (setq groovy-indent-offset n))
+
 ;;; change default smerge-command-prefix from C-c  ^ to C-c v
 ;;; https://emacs.stackexchange.com/a/16470
 (setq smerge-command-prefix "\C-cv")
@@ -442,3 +445,8 @@ This command does not push text to `kill-ring'."
 ;; 	    (setq c-basic-offset 4)
 ;; 	    (setq indent-tabs-mode nil)
 ;; 	    (c-set-offset 'label '+)))
+
+
+;;; indent by 2 in typescript-mode
+(setq typescript-indent-level 2)
+(put 'upcase-region 'disabled nil)

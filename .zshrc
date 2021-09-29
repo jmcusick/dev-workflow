@@ -144,3 +144,7 @@ if [[ "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
   bindkey "ƒ" forward-word # Option-f
   bindkey "∂" delete-word # Option-d
 fi
+
+function emacs-ro(){
+  emacs "$@" --eval '(setq buffer-read-only t)'
+}

@@ -9,7 +9,7 @@
 (package-initialize)
 
 ;;; Install mouse wheel for scrolling
-(mwheel-install)
+;; (mwheel-install)
 
 ;;; Turn off beeping
 (setq visible-bell t)
@@ -41,14 +41,12 @@
  '(ansi-color-for-comint-mode t)
  '(font-lock-global-modes t)
  '(groovy-mode-hook
-   (quote
-    (whitespace-cleanup-on-save-hook
+   '(whitespace-cleanup-on-save-hook
      (lambda nil
-       (setq indent-tabs-mode nil)))) t)
+       (setq indent-tabs-mode nil))) t)
  '(load-home-init-file t t)
  '(package-selected-packages
-   (quote
-    (typescript-mode groovy-mode pkg-info dockerfile-mode terraform-mode yaml-mode markdown-mode+ markdown-mode zone-nyan paradox)))
+   '(docker typescript-mode groovy-mode pkg-info dockerfile-mode terraform-mode yaml-mode markdown-mode+ markdown-mode zone-nyan paradox))
  '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -113,13 +111,23 @@
 ;;; (setq x-select-enable-clipboard t)
 
 ;;; xclip hack to link your x clipboard in -nw mode
-(defun copy-to-clipboard (text &optional push)
+(defun copy-to-clipboard-linux (text &optional push)
   (let ((process-connection-type nil))
     (let ((proc (start-process "xclip" "*Messages*" "xclip" "-selection" "clipboard")))
       (process-send-string proc text)
       (process-send-eof proc))))
 
-(setq interprogram-cut-function 'copy-to-clipboard)
+(defun copy-to-clipboard-mac (text &optional push)
+  (let ((process-connection-type nil))
+    (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+      (process-send-string proc text)
+      (process-send-eof proc))))
+
+;;; LINUX ONLY: link clipboard and region
+;;; (setq interprogram-cut-function 'copy-to-clipboard-linux)
+
+;;; MAC ONLY: link cliboard and region
+(setq interprogram-cut-function 'copy-to-clipboard-mac)
 
 ;;; activate windmove (default key: shift)
 (when (fboundp 'windmove-default-keybindings)
@@ -167,6 +175,11 @@
 (defun decrementNumString(str)
   (number-to-string (- (string-to-number str) 1)))
 
+;;; advise align-regexp (and thus align-word) to align with spaces instead of tabs
+;;; https://stackoverflow.com/questions/22710040/emacs-align-regexp-with-spaces-instead-of-tabs
+(defadvice align-regexp (around align-regexp-with-spaces activate)
+  (let ((indent-tabs-mode nil))
+    ad-do-it))
 
 ;;; idle zone
 (require 'zone)

@@ -104,13 +104,23 @@ alias emacs='emacs -nw'
 alias terraform14='/usr/local/bin/aud-terraform-home/terraform14/bin/darwin/terraform'
 alias terraform15='/usr/local/bin/aud-terraform-home/terraform15/bin/darwin/terraform'
 alias terraform1='/usr/local/bin/aud-terraform-home/terraform1.0/bin/darwin/terraform'
-alias terraform='terraform1'
+alias terraform1_0_10='/Users/jackcusick/Applications/Terraform/1.0.10/terraform'
+alias terraform='terraform1_0_10'
 alias tf-docs="docker run -v $(pwd):/data --env 'DELIM_START=<!-- TFDOC_START -->' --env 'DELIM_CLOSE=<!-- TFDOC_END -->' --entrypoint /docker-entrypoint.sh cytopia/terraform-docs:0.9.1 terraform-docs-replace-012 md README.md"
 
 alias rds-test="rds_ssh testing eu-central-1 jumphost.shared-testing.audibene.net aud-shared-testing.cgkrcdxleupl.eu-central-1.rds.amazonaws.com 17770"
 alias rds-stage="rds_ssh staging eu-central-1 jumphost.shared-staging.audibene.net aud-shared-staging.cmjzr458gibu.eu-central-1.rds.amazonaws.com 17771"
 alias rds-prod="rds_ssh production eu-central-1 jumphost.shared-production.audibene.net aud-shared-production.chb4mt6uvmu6.eu-central-1.rds.amazonaws.com 17772"
 alias rds-prod-us="rds_ssh production us-east-1 jumphost-nvirginia.shared-production.audibene.net aud-shared-production.clizi56dhqpr.us-east-1.rds.amazonaws.com 17773"
+
+alias rds-test-wts="rds_ssh testing eu-central-1 jumphost.shared-testing.audibene.net martech-services-wts-cron-testing.cgkrcdxleupl.eu-central-1.rds.amazonaws.com 17774"
+
+alias rds-ols-prod="rds_ssh production us-east-1 jumphost-nvirginia.shared-production.audibene.net teleaudiology-ta-opportunity-lifecycle-servi-production-se.clizi56dhqpr.us-east-1.rds.amazonaws.com 17773"
+
+alias rds-not-prod="rds_ssh production us-east-1 jumphost-nvirginia.shared-production.audibene.net teleaudiology-ta-notification-service-production-se.clizi56dhqpr.us-east-1.rds.amazonaws.com 17773"
+
+
+alias k-busy='kubectl run -i --tty busybox --image=busybox --restart=Never --rm -- sh'
 
 # Configuration from the ultimate terminal makeover guide
 # https://towardsdatascience.com/the-ultimate-guide-to-your-terminal-makeover-e11f9b87ac99

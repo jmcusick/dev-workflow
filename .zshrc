@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/jackcusick/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -23,14 +23,13 @@ ZSH_THEME="robbyrussell"
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# zstyle ':omz:update' frequency 13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
@@ -45,8 +44,9 @@ ZSH_THEME="robbyrussell"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
-# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
 # COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -70,7 +70,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git autojump zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git autojump zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -100,11 +100,12 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+
 alias emacs='emacs -nw'
 alias terraform14='/usr/local/bin/aud-terraform-home/terraform14/bin/darwin/terraform'
 alias terraform15='/usr/local/bin/aud-terraform-home/terraform15/bin/darwin/terraform'
 alias terraform1='/usr/local/bin/aud-terraform-home/terraform1.0/bin/darwin/terraform'
-alias terraform1_0_10='/Users/jackcusick/Applications/Terraform/1.0.10/terraform'
+alias terraform1_0_10='/Users/jack/Applications/Terraform/1.0.10/terraform'
 alias terraform='terraform1_0_10'
 alias tf-docs="docker run -v $(pwd):/data --env 'DELIM_START=<!-- TFDOC_START -->' --env 'DELIM_CLOSE=<!-- TFDOC_END -->' --entrypoint /docker-entrypoint.sh cytopia/terraform-docs:0.9.1 terraform-docs-replace-012 md README.md"
 
@@ -121,6 +122,9 @@ alias rds-not-prod="rds_ssh production us-east-1 jumphost-nvirginia.shared-produ
 
 
 alias k-busy='kubectl run -i --tty busybox --image=busybox --restart=Never --rm -- sh'
+
+# Brew path
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Configuration from the ultimate terminal makeover guide
 # https://towardsdatascience.com/the-ultimate-guide-to-your-terminal-makeover-e11f9b87ac99

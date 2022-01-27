@@ -463,3 +463,8 @@ This command does not push text to `kill-ring'."
 ;;; indent by 2 in typescript-mode
 (setq typescript-indent-level 2)
 (put 'upcase-region 'disabled nil)
+
+;;; fix for navigation keys in JetBrains terminal
+(define-key key-translation-map (kbd "∫") (kbd "M-b"))
+(define-key key-translation-map (kbd "ƒ") (kbd "M-f"))
+(define-key key-translation-map (kbd "∂") (kbd "M-d"))

@@ -1,0 +1,11 @@
+FROM amazon/aws-cli
+
+RUN yum install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_arm64/session-manager-plugin.rpm
+RUN yum install -y socat net-tools procps
+RUN amazon-linux-extras install postgresql10
+
+COPY aws_cli_docker_entrypoint.sh /usr/local/bin/
+
+ENTRYPOINT ["/usr/local/bin/aws_cli_docker_entrypoint.sh"]
+
+EXPOSE 5432

@@ -102,11 +102,14 @@ fi
 
 
 alias emacs='emacs -nw'
+# alias aws='docker run -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli:2.11.2'
+# alias aws='docker run -it -p 127.0.0.1:5432:5432 -v ~/.aws:/root/.aws -v $(pwd):/aws aws_cli_ssm'
+alias aws='docker run -it -p 5432:5432 -v ~/.aws:/root/.aws -v $(pwd):/aws aws_cli_ssm'
 alias terraform14='/usr/local/bin/aud-terraform-home/terraform14/bin/darwin/terraform'
 alias terraform15='/usr/local/bin/aud-terraform-home/terraform15/bin/darwin/terraform'
 alias terraform1='/usr/local/bin/aud-terraform-home/terraform1.0/bin/darwin/terraform'
 alias terraform1_0_10='/Users/jack/Applications/Terraform/1.0.10/terraform'
-alias terraform='terraform1_0_10'
+# alias terraform='terraform1_0_10'
 alias tf-docs="docker run -v $(pwd):/data --env 'DELIM_START=<!-- TFDOC_START -->' --env 'DELIM_CLOSE=<!-- TFDOC_END -->' --entrypoint /docker-entrypoint.sh cytopia/terraform-docs:0.9.1 terraform-docs-replace-012 md README.md"
 
 alias rds-test="rds_ssh testing eu-central-1 jumphost.shared-testing.audibene.net aud-shared-testing.cgkrcdxleupl.eu-central-1.rds.amazonaws.com 17770"
@@ -162,3 +165,11 @@ fi
 function emacs-ro(){
   emacs "$@" --eval '(setq buffer-read-only t)'
 }
+
+
+alias terraform_0.14.7='/Users/jack/terraform/0.14.7/terraform'
+alias terraform_1.3.7='/Users/jack/terraform/1.3.7/terraform'
+
+# kubectl autocompletion
+source <(kubectl completion zsh)
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
